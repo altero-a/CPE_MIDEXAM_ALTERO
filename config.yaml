@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates(Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update repository index (CentOS)
+    yum:
+      update_only: yes
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "CentOS"
+
+- hosts: elasticsearch
+  become: true
+  roles:
+    - elasticsearch
+
+- hosts: kibana
+  become: true
+  roles:
+    - kibana
+
+- hosts: logstash
+  become: true
+  roles:
+    - logstash
+
+- hosts: nagios
+  become: true
+  roles:
+    - nagios
+
+- hosts: prometheus
+  become: true
+  roles:
+    - prometheus
+
+- hosts: grafana
+  become: true
+  roles:
+    - grafana
+
+- hosts: influxdb
+  become: true
+  roles:
+    - influxdb
+
+- hosts: lampstack
+  become: true
+  roles:
+    - lampstack
